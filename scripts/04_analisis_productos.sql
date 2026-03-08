@@ -4,7 +4,9 @@ SELECT
     p.product_category_name AS categoria,
     COUNT(i.order_id) AS unidades_vendidas,
     ROUND(SUM(i.price), 2) AS ingresos_totales,
-    ROUND(AVG(i.price), 2) AS precio_promedio_unidad
+    ROUND(AVG(i.price), 2) AS precio_promedio_unidad,
+    ROUND((SUM(i.price) / SUM(SUM(i.price)) OVER()) * 100, 2) || '%' AS porcentaje_ingresos
+    
 FROM ecommerce_olist.items i
 JOIN ecommerce_olist.productos p ON i.product_id = p.product_id
 GROUP BY p.product_category_name
