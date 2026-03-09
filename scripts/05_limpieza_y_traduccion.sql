@@ -1,4 +1,4 @@
--- Creamos una Vista para no modificar la tabla original (Best Practice)
+-- Creamos una Vista para no modificar la tabla original
 CREATE OR REPLACE VIEW v_productos_limpios AS
 SELECT 
     product_id,
@@ -7,7 +7,7 @@ SELECT
     CASE product_category_name
         WHEN 'perfumaria' THEN 'Perfumería / Perfumery'
         WHEN 'artes' THEN 'Artes / Arts'
-        WHEN 'esporte_lazer' THEN 'Deporte y Ocio / Sports & Leisure'
+        WHEN 'esporte_lazer' THEN 'Deporte y Ocio / Sports ' ||'&'|| ' Leisure'
         WHEN 'bebes' THEN 'Bebés / Baby'
         WHEN 'utilidades_domesticas' THEN 'Artículos del Hogar / Housewares'
         WHEN 'instrumentos_musicais' THEN 'Instrumentos Musicales / Musical Instruments'
@@ -15,7 +15,12 @@ SELECT
         WHEN 'moveis_decoracao' THEN 'Muebles y Decoración / Furniture & Decor'
         WHEN 'informatica_acessorios' THEN 'Informática / IT Accessories'
         WHEN 'beleza_saude' THEN 'Belleza y Salud / Health & Beauty'
-        ELSE INITCAP(REPLACE(product_category_name, '_', ' ')) -- Limpieza genérica
+        ELSE INITCAP(REPLACE(product_category_name, '_', ' '))
     END AS categoria_multilenguaje,
     product_weight_g / 1000 AS peso_kg -- Convertimos de gramos a kilos
 FROM ecommerce_olist.productos;
+
+
+SELECT VIEW_NAME, TEXT_LENGTH 
+FROM USER_VIEWS 
+WHERE VIEW_NAME = 'V_PRODUCTOS_LIMPIOS';
